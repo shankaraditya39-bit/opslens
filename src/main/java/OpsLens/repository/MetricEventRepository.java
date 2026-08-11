@@ -1,3 +1,5 @@
+
+
 package OpsLens.repository;
 
 import OpsLens.entity.MetricEvent;
@@ -8,4 +10,8 @@ import java.util.List;
 public interface MetricEventRepository extends JpaRepository<MetricEvent, Long> {
 
     List<MetricEvent> findByServiceName(String serviceName);
+
+    List<MetricEvent> findTop10ByServiceNameAndMetricNameOrderByTimestampDesc(
+            String serviceName, String metricName
+    );
 }
