@@ -1,8 +1,10 @@
 package OpsLens.controller;
 
+import OpsLens.dto.MetricIngestionResponse;
 import OpsLens.entity.MetricEvent;
 import OpsLens.service.MetricService;
 import org.springframework.web.bind.annotation.*;
+import OpsLens.dto.MetricIngestionResponse;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class MetricController {
     }
 
     @PostMapping
-    public MetricEvent ingestMetric(@RequestBody MetricEvent metricEvent) {
+    public MetricIngestionResponse ingestMetric(@RequestBody MetricEvent metricEvent) {
         return metricService.ingestMetric(metricEvent);
     }
 
