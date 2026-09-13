@@ -23,8 +23,11 @@ public class MetricService {
 
     public MetricIngestionResponse ingestMetric(MetricEvent metricEvent) {
         metricEvent.setTimestamp(LocalDateTime.now());
+
+        boolean isAnomaly = anomalyDetector.isAnomaly(metricEvent);
+
         MetricEvent saved = metricEventRepository.save(metricEvent);
-        boolean isAnomaly = anomalyDetector.isAnomaly(saved);
+
         return new MetricIngestionResponse(saved, isAnomaly);
     }
 
