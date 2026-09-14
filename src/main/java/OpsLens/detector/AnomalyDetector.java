@@ -1,5 +1,6 @@
 package OpsLens.detector;
 
+import OpsLens.dto.AnomalyResult;
 import OpsLens.entity.MetricEvent;
 import OpsLens.repository.MetricEventRepository;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class AnomalyDetector {
         this.metricEventRepository = metricEventRepository;
     }
 
-    public boolean isAnomaly(MetricEvent metricEvent) {
+    public AnomalyResult isAnomaly(MetricEvent metricEvent) {
 
         List<MetricEvent> recentMetrics =
                 metricEventRepository.findTop10ByServiceNameAndMetricNameOrderByTimestampDesc(
@@ -25,7 +26,7 @@ public class AnomalyDetector {
 
         // Not enough data to establish a baseline
         if (recentMetrics.size() < 3) {
-            return false;
+            return new AnomalyResult(false, 0.0);
         }
 
         // Calculate average of the recent metrics
@@ -36,7 +37,10 @@ public class AnomalyDetector {
 
         // Handle zero-average case
         if (average == 0.0) {
-            return metricEvent.getValue() != 0.0;
+            return new AnomalyResult(
+                    metricEvent.getValue() != 0.0,
+                    average
+            );
         }
 
         // Calculate percentage deviation from the average
@@ -44,6 +48,8 @@ public class AnomalyDetector {
                 Math.abs(metricEvent.getValue() - average) / average;
 
         // More than 50% deviation = anomaly
-        return deviation > 0.50;
+        boolean anomaly = deviation > 0.50;
+
+        return new AnomalyResult(anomaly, average);
     }
 }
