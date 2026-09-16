@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "anomalies")
 @Data
@@ -28,4 +29,7 @@ public class Anomaly {
 
     @Column(nullable = false)
     private LocalDateTime detectedAt;
+
+    @Column(columnDefinition = "TEXT")
+    private String diagnosis;
 }
