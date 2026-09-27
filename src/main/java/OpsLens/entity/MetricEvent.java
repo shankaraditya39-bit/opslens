@@ -9,7 +9,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "metric_events")
 @Data
@@ -19,13 +20,16 @@ public class MetricEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
+    @NotBlank(message = "metricName is required")
     private String metricName;
 
-    @Column
+    @Column(nullable = false)
+    @NotNull(message = "value is required")
     private Double value;
 
-    @Column
+    @Column(nullable = false)
+    @NotBlank(message = "serviceName is required")
     private String serviceName;
 
     @Column(nullable = false)

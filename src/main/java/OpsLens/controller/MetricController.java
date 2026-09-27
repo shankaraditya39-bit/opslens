@@ -3,8 +3,9 @@ package OpsLens.controller;
 import OpsLens.dto.MetricIngestionResponse;
 import OpsLens.entity.MetricEvent;
 import OpsLens.service.MetricService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import OpsLens.dto.MetricIngestionResponse;
 
 import java.util.List;
 
@@ -19,7 +20,9 @@ public class MetricController {
     }
 
     @PostMapping
-    public MetricIngestionResponse ingestMetric(@RequestBody MetricEvent metricEvent) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public MetricIngestionResponse ingestMetric(
+            @Valid @RequestBody MetricEvent metricEvent) {
         return metricService.ingestMetric(metricEvent);
     }
 
