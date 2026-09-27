@@ -37,4 +37,5 @@ cp src/main/resources/application.properties.example \
 | GET | /metrics/{serviceName} | Filter by service |
 
 ## Status
-In progress — anomaly persistence and AI-driven incident diagnosis coming next.
+Complete — metric ingestion, sliding window anomaly detection, 
+Gemini AI diagnosis, and structured error handling all implemented.
